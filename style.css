@@ -1,0 +1,1552 @@
+/* ==========================================================================
+   PORTAFOLIO DIGITAL DE DENNIS ARIEL — ESTÉTICA APPLE (SF PRO / GLASSMORPHISM)
+   Hoja de estilos: style.css
+   ========================================================================== */
+
+/* ==========================================================================
+   1. VARIABLES DE DISEÑO (DESIGN TOKENS) — MODOS CLARO Y OSCURO
+   ========================================================================== */
+:root {
+  /* Tipografía inspirada en Apple SF Pro */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Helvetica Neue", sans-serif;
+  --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* MODO CLARO (Default - Estilo Apple Canvas) */
+  --bg-primary: #fbfbfd;
+  --bg-secondary: #f5f5f7;
+  --bg-card: #ffffff;
+  --bg-card-hover: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.75);
+  --bg-glass-card: rgba(255, 255, 255, 0.65);
+  --bg-chip: rgba(0, 0, 0, 0.05);
+  --bg-chip-hover: rgba(0, 0, 0, 0.09);
+  --bg-chip-active: #1d1d1f;
+  --text-chip-active: #ffffff;
+
+  /* Texto y Contrastes */
+  --text-primary: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --text-tertiary: #86868b;
+  --text-inverse: #ffffff;
+
+  /* Acentos de Color Apple */
+  --accent-color: #0071e3;
+  --accent-hover: #0077ed;
+  --accent-rgb: 0, 113, 227;
+  --badge-glow: rgba(0, 113, 227, 0.25);
+
+  /* Bordes y Líneas de división */
+  --border-subtle: rgba(0, 0, 0, 0.06);
+  --border-card: rgba(0, 0, 0, 0.08);
+  --border-focus: rgba(0, 113, 227, 0.6);
+
+  /* Sombras ultra-refinadas de Apple */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 20px 48px -12px rgba(0, 0, 0, 0.1);
+  --shadow-card-hover: 0 24px 50px -10px rgba(0, 0, 0, 0.12);
+
+  /* Radios de borde Apple */
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-pill: 9999px;
+
+  /* Tiempos de animación y curvas de aceleración (Apple Easing) */
+  --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-fast: 0.2s var(--ease-apple);
+  --transition-normal: 0.35s var(--ease-apple);
+  --transition-slow: 0.6s var(--ease-apple);
+
+  /* Filtro Glassmorphism */
+  --glass-blur: blur(20px);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* TEMA OSCURO (Apple Pro / Space Black & Dark Mode) */
+[data-theme="dark"] {
+  --bg-primary: #000000;
+  --bg-secondary: #0d0d0e;
+  --bg-card: #161617;
+  --bg-card-hover: #1c1c1e;
+  --bg-glass: rgba(22, 22, 23, 0.78);
+  --bg-glass-card: rgba(28, 28, 30, 0.65);
+  --bg-chip: rgba(255, 255, 255, 0.08);
+  --bg-chip-hover: rgba(255, 255, 255, 0.14);
+  --bg-chip-active: #ffffff;
+  --text-chip-active: #000000;
+
+  /* Texto y Contrastes */
+  --text-primary: #f5f5f7;
+  --text-secondary: #a1a1a6;
+  --text-tertiary: #6e6e73;
+  --text-inverse: #000000;
+
+  /* Acentos de Color */
+  --accent-color: #2997ff;
+  --accent-hover: #40a9ff;
+  --accent-rgb: 41, 151, 255;
+  --badge-glow: rgba(41, 151, 255, 0.35);
+
+  /* Bordes */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-card: rgba(255, 255, 255, 0.12);
+  --border-focus: rgba(41, 151, 255, 0.7);
+
+  /* Sombras en modo oscuro */
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.7);
+  --shadow-card-hover: 0 25px 60px rgba(0, 0, 0, 0.85);
+
+  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================================
+   2. REINICIO GLOBAL & ESTILOS BASE
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+/* Bloqueo de scroll cuando el modal está activo */
+body.modal-open {
+  overflow: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast), opacity var(--transition-fast);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+img, video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ==========================================================================
+   3. CLASES UTILITARIAS DE FORMAS Y DIMENSIONES (PERSONALIZACIÓN SENCILLA)
+   --------------------------------------------------------------------------
+   GUÍA PEDAGÓGICA PARA FORMAS Y MEDIOS:
+   
+   1. PROPORCIONES DE ASPECTO (ASPECT RATIO):
+      - `.aspect-16-9`: Ideal para videos panorámicos y renders arquitectónicos.
+      - `.aspect-1-1`: Formato cuadrado perfecto para avatares, iconos y detalles.
+      - `.aspect-4-5`: Proporción vertical tipo póster o publicación de Instagram.
+      
+   2. FORMAS DISPONIBLES:
+      - `.shape-rounded`: Aplica bordes redondeados estándar estilo iOS (24px).
+      - `.shape-circle`: Convierte la imagen o video en un círculo perfecto.
+      - `.shape-pentagon`: Recorta la imagen en un pentágono regular con clip-path.
+
+   3. CÓMO AGREGAR UNA NUEVA FORMA MEDIANTE CSS clip-path:
+      Ejemplo Hexágono (6 lados):
+      .shape-hexagon {
+        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      }
+      Ejemplo Rombo / Diamante:
+      .shape-diamond {
+        clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+      }
+      (Usa herramientas online como 'clippy' para generar cualquier polígono).
+   ========================================================================== */
+
+/* Contenedor padre de medios */
+.media-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--bg-secondary);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+/* Control de Proporción (Aspect Ratio) */
+.aspect-16-9 {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-1-1 {
+  aspect-ratio: 1 / 1;
+}
+
+.aspect-4-5 {
+  aspect-ratio: 4 / 5;
+}
+
+/* Formas utilitarias */
+.shape-rounded {
+  border-radius: var(--radius-lg);
+  -webkit-mask-image: -webkit-radial-gradient(white, black); /* Fix para safari anti-aliasing */
+}
+
+.shape-circle {
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+}
+
+.shape-pentagon {
+  /* Pentágono regular recortado vía coordenadas porcentuales */
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+  transition: clip-path var(--transition-normal);
+}
+
+/* Efecto hover suave en la forma de pentágono */
+.project-card:hover .shape-pentagon {
+  clip-path: polygon(50% 0%, 100% 35%, 85% 100%, 15% 100%, 0% 35%);
+}
+
+/* Elemento de medio (imagen o video) dentro del contenedor */
+.project-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform var(--transition-slow);
+}
+
+.project-card:hover .project-media {
+  transform: scale(1.05);
+}
+
+/* ==========================================================================
+   4. COMPONENTES Y PANELES GLASSMORPHISM ESTILO APPLE
+   ========================================================================== */
+.glass-panel {
+  background: var(--bg-glass-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  box-shadow: var(--shadow-md);
+  border-radius: var(--radius-xl);
+}
+
+/* ==========================================================================
+   5. BARRA DE NAVEGACIÓN (NAVBAR)
+   ========================================================================== */
+.navbar-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 16px 24px;
+  transition: background var(--transition-normal), 
+              padding var(--transition-normal), 
+              box-shadow var(--transition-normal),
+              backdrop-filter var(--transition-normal);
+}
+
+/* Estado al hacer scroll hacia abajo (efecto glassmorphism activado) */
+.navbar-wrapper.scrolled {
+  background: var(--bg-glass);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 12px 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.navbar {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Marca / Logotipo */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.brand-dot {
+  width: 5px;
+  height: 5px;
+  background-color: var(--accent-color);
+  border-radius: 50%;
+}
+
+.brand-tag {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--bg-chip);
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+}
+
+/* Enlaces de navegación */
+.nav-links {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 32px;
+}
+
+.nav-link {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.nav-link:hover {
+  color: var(--text-primary);
+}
+
+/* Acciones en la barra */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Conmutador de Tema (Dark/Light macOS style) */
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-chip);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  transition: background var(--transition-fast), 
+              transform var(--transition-fast), 
+              border-color var(--transition-fast);
+}
+
+.theme-toggle-btn:hover {
+  background: var(--bg-chip-hover);
+  transform: scale(1.06);
+}
+
+.theme-icon {
+  width: 19px;
+  height: 19px;
+  transition: transform var(--transition-normal), opacity var(--transition-normal);
+}
+
+/* Ocultar / mostrar icono según el tema */
+[data-theme="light"] .sun-icon {
+  display: block;
+}
+[data-theme="light"] .moon-icon {
+  display: none;
+}
+
+[data-theme="dark"] .sun-icon {
+  display: none;
+}
+[data-theme="dark"] .moon-icon {
+  display: block;
+  transform: rotate(-15deg);
+}
+
+/* Botón menú móvil (oculto en escritorio) */
+.mobile-menu-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-chip);
+  gap: 5px;
+}
+
+.menu-bar {
+  width: 18px;
+  height: 2px;
+  background-color: var(--text-primary);
+  transition: transform var(--transition-fast);
+}
+
+/* ==========================================================================
+   6. HERO SECTION (TIPOGRAFÍA DE GRAN ESCALA APPLE)
+   ========================================================================== */
+.hero-section {
+  padding: 160px 24px 80px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fondo de luz sutil estilo Keynote */
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.12) 0%, rgba(var(--accent-rgb), 0) 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-container {
+  max-width: 900px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Badge de estado estilo iOS */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 18px;
+  background: var(--bg-chip);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+}
+
+.badge-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #34c759; /* Verde de actividad iOS */
+  box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.7);
+  animation: pulseGreen 2s infinite;
+}
+
+@keyframes pulseGreen {
+  0% { box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.7); }
+  70% { box-shadow: 0 0 0 8px rgba(52, 199, 89, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(52, 199, 89, 0); }
+}
+
+/* Título de gran escala */
+.hero-title {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  margin-bottom: 24px;
+  color: var(--text-primary);
+}
+
+/* Gradiente sutil en el texto */
+.text-gradient {
+  background: linear-gradient(135deg, var(--text-primary) 30%, var(--accent-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  color: var(--text-secondary);
+  line-height: 1.55;
+  font-weight: 400;
+  max-width: 720px;
+  margin: 0 auto 36px;
+}
+
+/* Grupo de botones de llamada a la acción (CTA) */
+.hero-cta-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 56px;
+  flex-wrap: wrap;
+}
+
+/* Botones Apple Pill */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: var(--radius-pill);
+  font-size: 0.98rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  transition: transform var(--transition-fast), 
+              background-color var(--transition-fast), 
+              box-shadow var(--transition-fast), 
+              color var(--transition-fast);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+/* Botón primario (Fondo oscuro en light mode / Fondo claro en dark mode) */
+.btn-primary {
+  background-color: var(--text-primary);
+  color: var(--bg-primary);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+}
+
+.btn-arrow {
+  width: 18px;
+  height: 18px;
+  transition: transform var(--transition-fast);
+}
+
+.btn-primary:hover .btn-arrow {
+  transform: translateX(3px);
+}
+
+/* Botón secundario con efecto translúcido */
+.btn-secondary {
+  background-color: var(--bg-chip);
+  color: var(--text-primary);
+  border: 1px solid var(--border-card);
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-chip-hover);
+  transform: scale(1.03);
+}
+
+/* Métricas destacadas */
+.hero-stats {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 16px 36px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-number {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+}
+
+.stat-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 32px;
+  background-color: var(--border-subtle);
+}
+
+/* ==========================================================================
+   7. SECCIÓN DE GALERÍA Y FILTROS DE CATEGORÍAS
+   ========================================================================== */
+.gallery-section,
+.skills-section,
+.about-section,
+.contact-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+
+/* Encabezados de sección estándar Apple */
+.section-header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 48px;
+}
+
+.section-tag {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-color);
+  margin-bottom: 10px;
+}
+
+.section-title {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.section-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   BARRA DE CHIPS/PILLS DE FILTRADO
+   ========================================================================== */
+.filter-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 48px;
+}
+
+.filter-chips {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-sm);
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: var(--radius-pill);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: transparent;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.filter-chip:hover {
+  color: var(--text-primary);
+  background: var(--bg-chip);
+}
+
+.filter-chip.active {
+  background: var(--bg-chip-active);
+  color: var(--text-chip-active);
+  box-shadow: var(--shadow-sm);
+}
+
+.chip-count {
+  font-size: 0.75rem;
+  font-weight: 600;
+  opacity: 0.7;
+  padding: 1px 6px;
+  border-radius: var(--radius-pill);
+  background: rgba(125, 125, 125, 0.2);
+}
+
+.filter-chip.active .chip-count {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+[data-theme="dark"] .filter-chip.active .chip-count {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* ==========================================================================
+   GRILLA DE PROYECTOS (PROJECTS GRID)
+   ========================================================================== */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 32px;
+  transition: opacity var(--transition-normal);
+}
+
+/* Tarjeta individual de proyecto */
+.project-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-normal), 
+              box-shadow var(--transition-normal), 
+              border-color var(--transition-fast),
+              opacity var(--transition-normal);
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: rgba(var(--accent-rgb), 0.3);
+}
+
+/* Animaciones durante filtrado */
+.project-card.fade-out {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
+.project-card.fade-in {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Wrapper de medios */
+.project-media-wrapper {
+  position: relative;
+  padding: 12px 12px 0 12px;
+}
+
+.media-badge {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: rgba(0, 0, 0, 0.65);
+  color: #ffffff;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  letter-spacing: 0.02em;
+  z-index: 2;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Contenido de la tarjeta */
+.project-content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.project-header {
+  margin-bottom: 12px;
+}
+
+.project-category-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.project-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.project-description {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 24px;
+  flex-grow: 1;
+}
+
+/* Footer de la tarjeta con herramientas y botón */
+.project-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 18px;
+  flex-wrap: wrap;
+}
+
+.project-tools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tool-tag {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  background: var(--bg-chip);
+  color: var(--text-secondary);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-subtle);
+}
+
+/* Botón interactivo "Ver detalle" */
+.btn-detail-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--accent-color);
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.btn-detail-trigger svg {
+  width: 15px;
+  height: 15px;
+  transition: transform var(--transition-fast);
+}
+
+.btn-detail-trigger:hover {
+  background: rgba(var(--accent-rgb), 0.1);
+  transform: translateX(2px);
+}
+
+.btn-detail-trigger:hover svg {
+  transform: translateX(3px);
+}
+
+/* Estado vacío cuando no hay proyectos */
+.empty-state {
+  text-align: center;
+  padding: 64px 24px;
+  color: var(--text-secondary);
+}
+
+.empty-state svg {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+/* ==========================================================================
+   8. SECCIÓN DE HABILIDADES (SKILLS)
+   ========================================================================== */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.skill-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-xl);
+  padding: 32px 24px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+}
+
+.skill-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.skill-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: var(--bg-chip);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-color);
+  margin-bottom: 20px;
+}
+
+.skill-icon-wrapper svg {
+  width: 24px;
+  height: 24px;
+}
+
+.skill-title {
+  font-size: 1.18rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.skill-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.skill-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.skill-pill {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-chip);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+}
+
+/* ==========================================================================
+   9. SECCIÓN SOBRE MÍ
+   ========================================================================== */
+.about-card {
+  padding: 56px 48px;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.about-avatar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.avatar-container {
+  width: 220px;
+  height: 220px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 3px solid var(--border-card);
+  margin-bottom: 18px;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent-color);
+}
+
+.about-heading {
+  font-size: clamp(2rem, 3.5vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 4px;
+}
+
+.about-role {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--accent-color);
+  margin-bottom: 20px;
+}
+
+.about-text {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+
+.about-highlights {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.highlight-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.94rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.highlight-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(var(--accent-rgb), 0.15);
+  color: var(--accent-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   10. SECCIÓN DE CONTACTO & MICROINTERACCIONES
+   ========================================================================== */
+.contact-container {
+  padding: 64px 48px;
+  text-align: center;
+}
+
+.contact-title {
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+}
+
+.contact-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 580px;
+  margin: 0 auto 40px;
+}
+
+/* Tarjeta interactiva para copiar correo */
+.email-copy-box {
+  max-width: 520px;
+  margin: 0 auto 56px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-xl);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+  gap: 16px;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.email-copy-box:hover {
+  border-color: rgba(var(--accent-rgb), 0.4);
+  box-shadow: var(--shadow-md);
+}
+
+.email-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.email-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
+}
+
+.email-address {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  word-break: break-all;
+}
+
+/* Botón de copiado con microinteracción */
+.btn-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-color);
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  font-size: 0.88rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.btn-copy:hover {
+  background: var(--accent-hover);
+  transform: scale(1.03);
+}
+
+.btn-copy:active {
+  transform: scale(0.96);
+}
+
+.btn-copy.copied {
+  background: #34c759 !important; /* Verde confirmación Apple */
+  color: #ffffff;
+}
+
+.btn-copy svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Redes Sociales y Plataformas */
+.social-heading {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.social-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.social-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-card);
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), 
+              background-color var(--transition-fast), 
+              color var(--transition-fast),
+              box-shadow var(--transition-fast);
+}
+
+.social-pill svg {
+  width: 17px;
+  height: 17px;
+  transition: transform var(--transition-fast);
+}
+
+.social-pill:hover {
+  transform: translateY(-3px) scale(1.02);
+  background: var(--bg-chip-hover);
+  box-shadow: var(--shadow-md);
+  color: var(--accent-color);
+}
+
+.social-pill:hover svg {
+  transform: scale(1.1);
+}
+
+/* ==========================================================================
+   11. MODAL INTERACTIVO DE VISTA RÁPIDA (QUICK VIEW)
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--transition-normal), visibility var(--transition-normal);
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.modal-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 960px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 32px;
+  transform: scale(0.92);
+  transition: transform var(--transition-normal);
+  background: var(--bg-card);
+}
+
+.modal-overlay.active .modal-container {
+  transform: scale(1);
+}
+
+/* Botón de cierre en esquina superior */
+.modal-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-chip);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  z-index: 20;
+}
+
+.modal-close-btn:hover {
+  background: var(--bg-chip-hover);
+  transform: scale(1.1);
+}
+
+.modal-close-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Distribución del contenido del modal */
+.modal-content-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+
+.modal-media-wrapper {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: var(--bg-secondary);
+  box-shadow: var(--shadow-md);
+}
+
+.modal-media-wrapper img,
+.modal-media-wrapper video {
+  width: 100%;
+  height: auto;
+  max-height: 480px;
+  object-fit: contain;
+  display: block;
+}
+
+.modal-info-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modal-category {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-color);
+}
+
+.modal-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-top: 4px;
+}
+
+.modal-subheading {
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
+  margin-bottom: 6px;
+}
+
+.modal-description {
+  font-size: 0.98rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.modal-tools-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.modal-tool-pill {
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-chip);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+}
+
+/* ==========================================================================
+   12. PIE DE PÁGINA (FOOTER)
+   ========================================================================== */
+.footer {
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-primary);
+  padding: 56px 24px 36px;
+  font-size: 0.88rem;
+  color: var(--text-tertiary);
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.footer-logo {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.footer-tagline {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.back-to-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.back-to-top svg {
+  width: 16px;
+  height: 16px;
+  transition: transform var(--transition-fast);
+}
+
+.back-to-top:hover {
+  color: var(--accent-color);
+  transform: translateY(-2px);
+}
+
+.back-to-top:hover svg {
+  transform: translateY(-2px);
+}
+
+.footer-divider {
+  height: 1px;
+  background-color: var(--border-subtle);
+  margin-bottom: 24px;
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.8rem;
+}
+
+.footer-copyright strong,
+.footer-host strong {
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   13. MEDIA QUERIES (DISEÑO 100% RESPONSIVO)
+   ========================================================================== */
+@media (max-width: 992px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 36px;
+  }
+
+  .about-highlights {
+    align-items: center;
+  }
+
+  .modal-content-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .modal-media-wrapper img,
+  .modal-media-wrapper video {
+    max-height: 340px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 20px;
+    right: 20px;
+    background: var(--bg-card);
+    flex-direction: column;
+    padding: 24px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-card);
+    gap: 18px;
+  }
+
+  .nav-links.mobile-open {
+    display: flex;
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+  }
+
+  .hero-section {
+    padding-top: 120px;
+  }
+
+  .hero-stats {
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px 28px;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .stat-divider {
+    width: 100%;
+    height: 1px;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .email-copy-box {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .email-info {
+    text-align: center;
+  }
+
+  .about-card,
+  .contact-container {
+    padding: 40px 24px;
+  }
+
+  .modal-container {
+    padding: 24px 18px;
+  }
+
+  .footer-top,
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-chips {
+    justify-content: flex-start;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
